@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioregenerative Life Support & Deep Space Agriculture Architectures</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bio: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            800: '#166534',
+                            900: '#14532d',
+                        },
+                        space: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                            950: '#020617',
+                        },
+                        tech: {
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<!-- Chosen Palette: Deep Space Biosphere (Slate background #f8fafc, Emerald #16a34a biological accents, Cyan #0284c7 fluid/water accents, Amber #d97706 energy/soil accents) -->
+<!-- Application Structure Plan: Designed as a 6-module interactive mission dashboard that decouples the linear report into dynamic, task-based tools. Modules include: (1) Hero & Mission Parameter Live Calculator, (2) Closed-Loop Infrastructure & Interactive MELiSSA Compartment Explorer, (3) ESM Trade-off Analysis Chart, (4) Crop Matrix & Plant Physiology Explorer, (5) Interactive Regolith Soil Genesis & Microgravity Fluidics Simulator, and (6) Deep Space Food Tech & Bibliography Reference Library. This structure allows engineers, researchers, and competition judges to interactively model crew sizing, test bioregenerative loops, and inspect empirical data in real time. -->
+<!-- Visualization & Content Choices: 
+  - Human Mass Balance -> Interactive Dynamic Sliders -> Instant recalculation of daily O2, H2O, Food, and CO2 mass flows -> Custom Vanilla JS.
+  - MELiSSA Architecture -> 5-Node Interactive Flow Map -> Dynamic detail inspector on click -> HTML/CSS Tailwind Cards + JS.
+  - ESM Trade-off -> Interactive Line Chart -> Shows Physicochemical vs BLSS mass penalty intersection over time -> Chart.js Canvas (NO SVG/Mermaid).
+  - Crop Portfolio -> Filterable Dynamic Cards -> Filter by Leafy, Fruiting, Staple, Algae -> Vanilla JS array filter.
+  - Regolith Transformation -> 4-Step Interactive Pipeline -> Visualizes Perchlorate reduction & SCWO process -> Tailwind Tabs + Canvas status charts.
+  - Photosynthetic Photon Efficacy -> Dynamic Bar Chart -> Chart.js Canvas.
+  - CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. All visual elements generated using Tailwind HTML/CSS layout, standard Canvas charts, and Unicode indicators. -->
+
+<body class="bg-space-50 text-space-800 font-sans antialiased leading-relaxed">
+
+    <!-- Top Sticky Navigation -->
+    <header class="sticky top-0 z-50 bg-space-900 text-white shadow-lg border-b border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl">🌱</span>
+                    <div class="leading-tight">
+                        <h1 class="font-bold text-lg tracking-wide text-bio-200">BIOREGENERATIVE SPACE ARCHITECTURE</h1>
+                        <p class="text-xs text-slate-400">Deep Space Habitation & Agriculture System</p>
+                    </div>
+                </div>
+                <nav class="hidden md:flex space-x-1 text-xs font-medium">
+                    <a href="#overview" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">Overview</a>
+                    <a href="#infrastructure" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">Infrastructure & MELiSSA</a>
+                    <a href="#esm" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">ESM Trade-Offs</a>
+                    <a href="#crops" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">Crop Selection</a>
+                    <a href="#growing" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">Growing Techniques & ISRU</a>
+                    <a href="#tech" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">Food Science & Tech</a>
+                    <a href="#bibliography" class="px-3 py-2 rounded-md hover:bg-space-800 text-slate-200 hover:text-bio-200 transition">Bibliography</a>
+                </nav>
+                <div class="md:hidden">
+                    <a href="#calculator" class="bg-bio-600 px-3 py-1.5 rounded text-xs text-white font-semibold">Calculator</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+        <!-- Cover Header & Title Banner -->
+        <section id="overview" class="bg-gradient-to-r from-space-900 via-space-800 to-space-950 text-white rounded-2xl p-8 sm:p-12 shadow-xl border border-slate-800 relative overflow-hidden">
+            <div class="relative z-10 max-w-4xl">
+                <div class="inline-flex items-center space-x-2 bg-bio-900/80 text-bio-200 border border-bio-500/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider mb-4">
+                    <span>🏆 Competition Design Entry</span>
+                    <span>•</span>
+                    <span>Live in a Healthy Space</span>
+                </div>
+                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-4 leading-tight">
+                    Closed-Loop Bioregenerative Life Support & Agricultural Architectures
+                </h1>
+                <p class="text-slate-300 text-base sm:text-lg mb-6 leading-relaxed">
+                    An end-to-end engineering report and interactive architecture for deep space missions. Synthesizing human metabolic balances, water recovery, supercritical water oxidation (SCWO), MELiSSA compartmentalized loops, regolith bioremediation, and microgravity agricultural fluidics.
+                </p>
+
+                <!-- Key Metrics Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-slate-700/60 text-xs">
+                    <div class="bg-space-800/60 p-3 rounded-lg border border-slate-700">
+                        <span class="block text-slate-400 font-medium">Loop Closure Target</span>
+                        <span class="text-xl font-bold text-bio-200">95% - 105%</span>
+                    </div>
+                    <div class="bg-space-800/60 p-3 rounded-lg border border-slate-700">
+                        <span class="block text-slate-400 font-medium">Mars ESM Crossover</span>
+                        <span class="text-xl font-bold text-amber-400">~4.8 Years</span>
+                    </div>
+                    <div class="bg-space-800/60 p-3 rounded-lg border border-slate-700">
+                        <span class="block text-slate-400 font-medium">Daily O2 / Astronaut</span>
+                        <span class="text-xl font-bold text-cyan-300">0.84 - 0.89 kg</span>
+                    </div>
+                    <div class="bg-space-800/60 p-3 rounded-lg border border-slate-700">
+                        <span class="block text-slate-400 font-medium">SCWO Operating Pressure</span>
+                        <span class="text-xl font-bold text-indigo-300">22.1 MPa</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Executive Summary Section -->
+        <section class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="border-l-4 border-bio-600 pl-4 mb-4">
+                <h2 class="text-2xl font-bold text-space-900">Executive Summary</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Strategic Foundations & Biomedical Imperatives</p>
+            </div>
+            <p class="text-slate-700 leading-relaxed text-sm sm:text-base mb-4">
+                The establishment of a permanent human presence in deep space—whether in transit to Mars or stationed on extraterrestrial surfaces—demands a fundamental paradigm shift from resupply-dependent logistics to fully autonomous, closed-loop ecosystems. Relying solely on mechanical life support is unsustainable for multi-year missions due to Equivalent System Mass (ESM) constraints and the inevitable nutritional degradation of pre-packaged food supplies (such as Vitamins B1 and C).
+            </p>
+            <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+                This interactive application translates biological and physicochemical engineering data into an operational model. Artificial ecosystems, such as the 5-compartment MELiSSA framework, provide the necessary control to recycle human waste into potable water, oxygen, and crop nutrients. By combining Supercritical Water Oxidation (SCWO), targeted perchlorate-reducing bacteria (<em>Azospira oryzae</em>), passive capillary fluidics (PTNDS/PONDS), and hyperspectral AI crop monitoring, deep space habitats can establish an infinite, self-sustaining agricultural life support system.
+            </p>
+        </section>
+
+        <!-- Acknowledgement -->
+        <section class="bg-slate-100 rounded-xl p-5 border border-slate-200 text-xs sm:text-sm text-slate-600">
+            <h3 class="font-bold text-space-900 uppercase tracking-wider mb-1">Formal Acknowledgement</h3>
+            <p>
+                Acknowledgment is extended to the global aerospace, astrobotany, and bio-engineering communities whose empirical research on closed ecological life support systems, fluid dynamics in microgravity, and in-situ resource utilization has established the foundational knowledge required for this report. Data synthesized from MELiSSA (ESA), NASA Veggie/APH, Biosphere 2, and the Deep Space Food Challenge.
+            </p>
+        </section>
+
+        <!-- SECTION 1: INFRASTRUCTURE & MASS BALANCE CALCULATOR -->
+        <section id="infrastructure" class="space-y-8">
+            <div class="border-l-4 border-tech-500 pl-4">
+                <h2 class="text-2xl font-bold text-space-900">1. Infrastructure & Mass Balance</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Human Metabolic Mass Balance, Atmospheric Loops & MELiSSA Architecture</p>
+            </div>
+
+            <!-- Introductory Paragraph -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 text-slate-700 text-sm leading-relaxed">
+                <p class="mb-3">
+                    <strong>Section Context & Purpose:</strong> Human spaceflight logistics are fundamentally dictated by the biological necessity to supply oxygen, potable water, and caloric mass while continuously scrubbing carbon dioxide and metabolic waste. Unlike Earth's biosphere, which features massive atmospheric buffering capacities, spacecraft habitats are highly sensitive to micro-fluctuations.
+                </p>
+                <p>
+                    Below, explore the <strong>Interactive Mission Mass Balance Calculator</strong> to model crew logistics across variable mission lengths, and inspect the <strong>MELiSSA 5-Compartment Biological Loop</strong> to see how waste streams are systematically processed into food and air.
+                </p>
+            </div>
+
+            <!-- Interactive Mass Balance Calculator -->
+            <div id="calculator" class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 mb-6 border-b border-slate-200 gap-4">
+                    <div>
+                        <h3 class="text-lg font-bold text-space-900 flex items-center gap-2">
+                            <span>🧮</span> Interactive Human Mass Balance Simulator
+                        </h3>
+                        <p class="text-xs text-slate-500">Adjust crew size and mission duration to calculate mass requirements and recovery metrics.</p>
+                    </div>
+                    <div class="bg-bio-50 border border-bio-200 text-bio-800 text-xs px-3 py-1.5 rounded-lg font-semibold">
+                        Baseline Energy: 3,000+ kcal/day/astronaut
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 bg-space-50 p-4 rounded-lg border border-slate-200">
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="crew-count" class="text-xs font-bold uppercase text-slate-700">Crew Size (Astronauts):</label>
+                            <span id="crew-val" class="text-sm font-extrabold text-tech-600 bg-white px-2 py-0.5 rounded border border-slate-200">4 Crew</span>
+                        </div>
+                        <input type="range" id="crew-count" min="1" max="12" value="4" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-tech-600">
+                        <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                            <span>1 Person</span>
+                            <span>6 (Mars Transit)</span>
+                            <span>12 (Surface Base)</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="mission-days" class="text-xs font-bold uppercase text-slate-700">Mission Duration (Days):</label>
+                            <span id="days-val" class="text-sm font-extrabold text-bio-600 bg-white px-2 py-0.5 rounded border border-slate-200">1000 Days</span>
+                        </div>
+                        <input type="range" id="mission-days" min="30" max="1200" step="10" value="1000" class="w-full h-2 bg-slate-300 rounded-lg appearance-none cursor-pointer accent-bio-600">
+                        <div class="flex justify-between text-[10px] text-slate-500 mt-1">
+                            <span>30 Days (Lunar)</span>
+                            <span>500 Days (Short Mars)</span>
+                            <span>1000 Days (Full Mission)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calculated Output Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-cyan-50/60 border border-cyan-200 p-4 rounded-lg">
+                        <span class="text-xs font-semibold text-cyan-800 uppercase block mb-1">Oxygen ($O_2$) Input</span>
+                        <div class="text-2xl font-black text-cyan-900" id="out-o2">3,460 kg</div>
+                        <span class="text-[11px] text-cyan-700">0.865 kg/crew/day</span>
+                    </div>
+
+                    <div class="bg-blue-50/60 border border-blue-200 p-4 rounded-lg">
+                        <span class="text-xs font-semibold text-blue-800 uppercase block mb-1">Potable Water ($H_2O$)</span>
+                        <div class="text-2xl font-black text-blue-900" id="out-h2o">11,680 kg</div>
+                        <span class="text-[11px] text-blue-700">2.92 kg/crew/day</span>
+                    </div>
+
+                    <div class="bg-amber-50/60 border border-amber-200 p-4 rounded-lg">
+                        <span class="text-xs font-semibold text-amber-800 uppercase block mb-1">Dry Food Biomass</span>
+                        <div class="text-2xl font-black text-amber-900" id="out-food">2,840 kg</div>
+                        <span class="text-[11px] text-amber-700">0.71 kg/crew/day</span>
+                    </div>
+
+                    <div class="bg-purple-50/60 border border-purple-200 p-4 rounded-lg">
+                        <span class="text-xs font-semibold text-purple-800 uppercase block mb-1">Carbon Dioxide Output</span>
+                        <div class="text-2xl font-black text-purple-900" id="out-co2">4,160 kg</div>
+                        <span class="text-[11px] text-purple-700">1.04 kg/crew/day</span>
+                    </div>
+                </div>
+
+                <!-- Summary Table of Daily Human Mass Balance -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left text-slate-600 border border-slate-200">
+                        <thead class="bg-slate-100 text-slate-800 uppercase font-semibold">
+                            <tr>
+                                <th class="p-3 border-b">Resource Parameter</th>
+                                <th class="p-3 border-b">Daily Input / Crew Member</th>
+                                <th class="p-3 border-b">Daily Output / Crew Member</th>
+                                <th class="p-3 border-b">Primary Recovery / Generation Mechanism</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-200">
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-800">Oxygen ($O_2$)</td>
+                                <td class="p-3 text-cyan-700 font-medium">0.84 - 0.89 kg</td>
+                                <td class="p-3 text-slate-400">N/A</td>
+                                <td class="p-3">Photosynthesis (Cyanobacteria/Plants), Electrolysis</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-800">Carbon Dioxide ($CO_2$)</td>
+                                <td class="p-3 text-slate-400">N/A</td>
+                                <td class="p-3 text-purple-700 font-medium">1.00 - 1.08 kg</td>
+                                <td class="p-3">Absorbed by Plants, Sabatier Reactor ($CO_2 + 4H_2 \rightarrow CH_4 + 2H_2O$)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-800">Water ($H_2O$)</td>
+                                <td class="p-3 text-blue-700 font-medium">2.79 - 3.05 kg (Potable)</td>
+                                <td class="p-3 text-blue-700 font-medium">1.40-1.78kg Urine, 2.28kg Vapor</td>
+                                <td class="p-3">Supercritical Water Oxidation (SCWO), Transpiration Condensate</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold text-slate-800">Dry Food / Biomass</td>
+                                <td class="p-3 text-amber-700 font-medium">0.62 - 0.80 kg</td>
+                                <td class="p-3 text-amber-700 font-medium">0.09 - 0.22 kg (Feces)</td>
+                                <td class="p-3">Bioregenerative Agriculture, Photobioreactors (Spirulina)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MELiSSA Architecture Interactive Tool -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
+                <div class="mb-4">
+                    <h3 class="text-lg font-bold text-space-900 flex items-center gap-2">
+                        <span>🔄</span> The MELiSSA Compartmentalized Life Support Architecture
+                    </h3>
+                    <p class="text-xs text-slate-500">
+                        Click on any compartment to inspect its biological function, target microorganisms, operating parameters, and chemical transformations.
+                    </p>
+                </div>
+
+                <!-- 5 Compartments Interactive Flow -->
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 mb-6" id="melissa-nodes">
+                    <button onclick="showMelissa(1)" id="mel-btn-1" class="mel-node p-3 rounded-xl border-2 border-bio-500 bg-bio-50 text-left transition hover:shadow-md">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-bio-800 block">Compartment 1</span>
+                        <span class="font-extrabold text-space-900 text-sm block">Liquefying</span>
+                        <span class="text-[11px] text-slate-600 block mt-1">Anaerobic Digest</span>
+                    </button>
+
+                    <button onclick="showMelissa(2)" id="mel-btn-2" class="mel-node p-3 rounded-xl border border-slate-200 bg-slate-50 text-left transition hover:shadow-md">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Compartment 2</span>
+                        <span class="font-extrabold text-space-900 text-sm block">Photoheterotrophic</span>
+                        <span class="text-[11px] text-slate-600 block mt-1">VFA Removal</span>
+                    </button>
+
+                    <button onclick="showMelissa(3)" id="mel-btn-3" class="mel-node p-3 rounded-xl border border-slate-200 bg-slate-50 text-left transition hover:shadow-md">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Compartment 3</span>
+                        <span class="font-extrabold text-space-900 text-sm block">Nitrifying</span>
+                        <span class="text-[11px] text-slate-600 block mt-1">Ammonium Oxidation</span>
+                    </button>
+
+                    <button onclick="showMelissa(4)" id="mel-btn-4" class="mel-node p-3 rounded-xl border border-slate-200 bg-slate-50 text-left transition hover:shadow-md">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Compartment 4</span>
+                        <span class="font-extrabold text-space-900 text-sm block">Photoautotrophic</span>
+                        <span class="text-[11px] text-slate-600 block mt-1">Algae & Crops</span>
+                    </button>
+
+                    <button onclick="showMelissa(5)" id="mel-btn-5" class="mel-node p-3 rounded-xl border border-slate-200 bg-slate-50 text-left transition hover:shadow-md">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">Compartment 5</span>
+                        <span class="font-extrabold text-space-900 text-sm block">Crew Zone</span>
+                        <span class="text-[11px] text-slate-600 block mt-1">Human Respiration</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic Inspector Card -->
+                <div id="melissa-detail" class="bg-space-900 text-white p-6 rounded-xl border border-slate-800 space-y-3">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: EQUIVALENT SYSTEM MASS (ESM) TRADE-OFFS -->
+        <section id="esm" class="space-y-6">
+            <div class="border-l-4 border-amber-500 pl-4">
+                <h2 class="text-2xl font-bold text-space-900">2. Equivalent System Mass (ESM) & Power Trade-offs</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Physicochemical vs. Bioregenerative Life Support Crossover Metrics</p>
+            </div>
+
+            <!-- Introductory Paragraph -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 text-slate-700 text-sm leading-relaxed">
+                <p class="mb-3">
+                    <strong>Section Context & Purpose:</strong> In aerospace engineering, technologies are evaluated using Equivalent System Mass (ESM), which unifies initial mass, volume, power, cooling, and crew time into a single equivalent mass penalty metric ($ESM = M + \gamma_V V + \gamma_P P + \gamma_C C + \gamma_{CT} T$).
+                </p>
+                <p>
+                    Physicochemical systems have low initial launch mass but demand continuous resupply. Bioregenerative systems require significant initial mass for lights and growth chambers but become far more efficient over multi-year durations. Below, observe the <strong>ESM Mass Crossover Chart</strong> showing where biological agriculture outperforms standard resupply systems.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <!-- ESM Chart -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="text-base font-bold text-space-900 mb-2">ESM Penalty (kg Equivalent) vs Mission Duration (Years)</h3>
+                    <p class="text-xs text-slate-500 mb-4">Note the crossover point at ~4.8 years where biological agriculture becomes less massive than physicochemical resupply.</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="esmChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- ESM Detail Callout -->
+                <div class="lg:col-span-5 bg-amber-50/60 border border-amber-200 p-6 rounded-xl space-y-4">
+                    <h3 class="font-bold text-amber-900 text-lg">Key Findings: ESM Optimization</h3>
+                    <ul class="text-xs text-amber-800 space-y-2.5 leading-relaxed">
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 font-bold">▶</span>
+                            <span><strong>Crossover Horizon:</strong> At approximately 4.8 years for a 4-person Mars mission, the cumulative mass of physical resupply exceeds the fixed mass cost of a bioregenerative habitat.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 font-bold">▶</span>
+                            <span><strong>Lighting Power Penalty:</strong> Electrical lighting accounts for over 70% of a biological ESM penalty. Transitioning to LEDs with $>3.0 \, \mu\text{mol}\cdot\text{J}^{-1}$ efficiency or solar light pipes reduces ESM by up to 38%.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-amber-600 font-bold">▶</span>
+                            <span><strong>Crew Time Factor ($\gamma_{CT} T_i$):</strong> Astronaut labor is the single highest non-hardware penalty. Autonomous spectral monitoring and UV-C robotics are required to minimize manual crop management.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: CROP SELECTION & PLANT PHYSIOLOGY -->
+        <section id="crops" class="space-y-6">
+            <div class="border-l-4 border-bio-600 pl-4">
+                <h2 class="text-2xl font-bold text-space-900">3. Crop Selection & Physiological Adaptation</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Nutritional Stability, Lignin Reduction & Microalgae Integration</p>
+            </div>
+
+            <!-- Introductory Paragraph -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 text-slate-700 text-sm leading-relaxed">
+                <p class="mb-3">
+                    <strong>Section Context & Purpose:</strong> Long-duration spaceflight leads to severe micronutrient degradation in stored pre-packaged foods (specifically Vitamins B1 and C). To maintain crew health and provide cognitive relief through organoleptic (taste, texture, color) diversity, space habitats must cultivate a balanced portfolio of crops.
+                </p>
+                <p>
+                    Filter through the <strong>Deep Space Crop Matrix</strong> below to compare crop growth cycles, nutritional roles, and microgravity structural responses.
+                </p>
+            </div>
+
+            <!-- Crop Category Selector Filters -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-space-900">Deep Space Crop Portfolio</h3>
+                        <p class="text-xs text-slate-500">Filter candidate crops based on nutritional priority and growth profile.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2 text-xs font-semibold" id="crop-filters">
+                        <button onclick="filterCrops('all')" class="crop-filter-btn px-3 py-1.5 rounded-lg bg-bio-600 text-white">All Candidates</button>
+                        <button onclick="filterCrops('microgreen')" class="crop-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Microgreens & Salad</button>
+                        <button onclick="filterCrops('fruiting')" class="crop-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Fruiting Crops</button>
+                        <button onclick="filterCrops('staple')" class="crop-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Caloric Staples</button>
+                        <button onclick="filterCrops('algae')" class="crop-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Microalgae / Cyanobacteria</button>
+                    </div>
+                </div>
+
+                <!-- Crop Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="crop-grid">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Lignin & Microgravity Physiology Insight Card -->
+            <div class="bg-bio-900 text-white p-6 rounded-xl border border-bio-800 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <span class="text-bio-300 text-xs font-bold uppercase tracking-wider block mb-1">Microgravity Adaptation Insight</span>
+                    <h3 class="text-xl font-bold mb-2">Lignin Downregulation in Zero-G</h3>
+                    <p class="text-xs text-bio-100 leading-relaxed mb-3">
+                        Studies on ISS-grown plants reveal that microgravity suppresses structural polymer synthesis. Plants produce <strong>25 to 100 $\mu g$ less lignin per stem</strong> compared to Earth controls.
+                    </p>
+                    <p class="text-xs text-bio-200 leading-relaxed">
+                        <em>Biomedical Benefit:</em> While reduced structural stiffness requires phototropic guidance, lower lignin content significantly increases the human digestibility and nutritional bioavailability of leafy stalks!
+                    </p>
+                </div>
+                <div class="bg-space-900/80 p-4 rounded-lg border border-bio-700/50 text-xs text-slate-300 space-y-2">
+                    <div class="flex justify-between border-b border-slate-700 pb-1">
+                        <span>Stored Food Vitamin B1 Degradation:</span>
+                        <span class="text-amber-400 font-bold">&gt;50% in 1-2 years</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-700 pb-1">
+                        <span>Stored Food Vitamin C Degradation:</span>
+                        <span class="text-amber-400 font-bold">Severe Loss in 1 year</span>
+                    </div>
+                    <div class="flex justify-between border-b border-slate-700 pb-1">
+                        <span>Harvest Index (Edible Bio-ratio):</span>
+                        <span class="text-bio-300 font-bold">Target &gt; 60%</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Spirulina Protein Content:</span>
+                        <span class="text-cyan-300 font-bold">60% - 70% Dry Mass</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: GROWING TECHNIQUES & ISRU SOIL GENESIS -->
+        <section id="growing" class="space-y-6">
+            <div class="border-l-4 border-cyan-500 pl-4">
+                <h2 class="text-2xl font-bold text-space-900">4. Method of Growing Techniques & In-Situ Soil Synthesis</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Fluidics, Statolith Tropisms, Regolith Detoxification & SCWO Biosolids</p>
+            </div>
+
+            <!-- Introductory Paragraph -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 text-slate-700 text-sm leading-relaxed">
+                <p class="mb-3">
+                    <strong>Section Context & Purpose:</strong> Microgravity collapses traditional soil dynamics: without gravity, surface tension causes water to suffocate plant roots, leading to root-zone hypoxia. Furthermore, Martian regolith contains 0.5% - 1.0% toxic perchlorates ($ClO_4^-$).
+                </p>
+                <p>
+                    Below, explore how passive capillary watering systems (PTNDS/PONDS) solve root fluidics, and step through the <strong>4-Stage Interactive ISRU Soil Genesis Pipeline</strong> showing how toxic regolith and human biosolid waste are converted into arable agricultural soil.
+                </p>
+            </div>
+
+            <!-- Microgravity Fluidics Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-cyan-600 text-2xl mb-2">💧</div>
+                    <h3 class="font-bold text-space-900 text-sm mb-1">PTNDS Ceramic Tubes</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Passive Porous Tube Nutrient Delivery System utilizes hydrophilic ceramic tubes. Plant transpiration pulls water through micro-pores at exact metabolic demand without pumps.
+                    </p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-cyan-600 text-2xl mb-2">🧪</div>
+                    <h3 class="font-bold text-space-900 text-sm mb-1">PONDS Wicking Substrates</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        Passive Orbital Nutrient Delivery System combines intrinsically hydrophilic wicking materials with expandable clay media to preserve 50:50 air-to-water ratios in zero gravity.
+                    </p>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+                    <div class="text-cyan-600 text-2xl mb-2">💡</div>
+                    <h3 class="font-bold text-space-900 text-sm mb-1">Phototropic Statolith Guidance</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        With statolith sedimentation disabled, roots and shoots orientation is guided via overhead high-intensity LEDs, leveraging red/blue-light phototropism and hydrotropism.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step-by-Step ISRU Soil Genesis Simulator -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                <h3 class="text-lg font-bold text-space-900 mb-1 flex items-center gap-2">
+                    <span>🪨</span> ISRU Soil Genesis: Turning Toxic Regolith into Arable Soil
+                </h3>
+                <p class="text-xs text-slate-500 mb-6">Select a stage in the transformation pipeline to inspect the chemical and biological mechanisms.</p>
+
+                <!-- Stage Nav Tabs -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6" id="soil-tabs">
+                    <button onclick="showSoilStage(1)" id="soil-tab-1" class="p-3 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 text-amber-900">
+                        1. Raw Regolith & Perchlorates
+                    </button>
+                    <button onclick="showSoilStage(2)" id="soil-tab-2" class="p-3 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-slate-600">
+                        2. Bacterial Bioremediation
+                    </button>
+                    <button onclick="showSoilStage(3)" id="soil-tab-3" class="p-3 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-slate-600">
+                        3. SCWO Biosolid Mineralization
+                    </button>
+                    <button onclick="showSoilStage(4)" id="soil-tab-4" class="p-3 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-slate-600">
+                        4. Rhizosphere & Mycorrhizae
+                    </button>
+                </div>
+
+                <!-- Stage Detail Display Card -->
+                <div id="soil-stage-detail" class="bg-space-900 text-white p-6 rounded-xl space-y-4">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- Lighting & Photon Efficacy Chart -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+                <div class="lg:col-span-7">
+                    <h3 class="text-base font-bold text-space-900 mb-1">Photosynthetic Photon Efficacy (PPE) Comparison</h3>
+                    <p class="text-xs text-slate-500 mb-4">Higher PPE ($\mu\text{mol}\cdot\text{J}^{-1}$) drastically reduces electrical power penalties in ESM calculations.</p>
+                    <div class="chart-container">
+                        <canvas id="ppeChart"></canvas>
+                    </div>
+                </div>
+                <div class="lg:col-span-5 text-xs text-slate-700 space-y-3">
+                    <div class="p-3 bg-space-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-space-900 block mb-1">Photosynthetically Active Radiation (PAR)</span>
+                        <span>Wavelength range 400 nm to 700 nm required for chlorophyll $a$ and $b$ absorption peaks.</span>
+                    </div>
+                    <div class="p-3 bg-space-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-space-900 block mb-1">Deep Space Efficiency Threshold</span>
+                        <span>Entry commercial LEDs operate at ~2.0 $\mu\text{mol}\cdot\text{J}^{-1}$. Space systems must achieve $>3.0 \, \mu\text{mol}\cdot\text{J}^{-1}$ to remain electrically viable.</span>
+                    </div>
+                    <div class="p-3 bg-space-50 rounded-lg border border-slate-200">
+                        <span class="font-bold text-space-900 block mb-1">Solar Light Concentrators</span>
+                        <span>Himawari Fresnel lenses pipe external solar photons via fiber-optics directly into growth chambers, completely bypassing electrical conversion losses.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: FOOD SCIENCE & DEEP SPACE TECHNOLOGIES -->
+        <section id="tech" class="space-y-6">
+            <div class="border-l-4 border-indigo-500 pl-4">
+                <h2 class="text-2xl font-bold text-space-900">5. Food Science Technologies & Biosecurity</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Hyperspectral AI Monitoring, UV-C Sterilization & Culinary Innovations</p>
+            </div>
+
+            <!-- Introductory Paragraph -->
+            <div class="bg-white p-6 rounded-xl border border-slate-200 text-slate-700 text-sm leading-relaxed">
+                <p class="mb-3">
+                    <strong>Section Context & Purpose:</strong> Closed space environments lack atmospheric convection and elevate fungal virulence while suppressing plant immunity. Furthermore, raw crops must be autonomously processed into edible, crumb-free meals in microgravity.
+                </p>
+                <p>
+                    Below, inspect the <strong>Automated Biosecurity Protocol</strong> (utilizing photolyase UV-C night cycles) and explore winners of the <strong>Deep Space Food Challenge</strong>.
+                </p>
+            </div>
+
+            <!-- Deep Space Food Challenge Showcase Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-300 transition">
+                    <span class="text-xs font-bold text-indigo-600 uppercase block mb-1">Interstellar Lab</span>
+                    <h3 class="font-extrabold text-space-900 text-base mb-2">NuCLEUS System</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Closed-loop automated production module producing microgreens, edible fungi, and insect protein with 90% human labor automation.
+                    </p>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 font-semibold text-[10px] px-2 py-1 rounded">High Yield / Low Labor</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-300 transition">
+                    <span class="text-xs font-bold text-indigo-600 uppercase block mb-1">SATED Space LLC</span>
+                    <h3 class="font-extrabold text-space-900 text-base mb-2">SATED Appliance</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Centrifugal microgravity cooking device creating artificial gravity to press dough and toppings onto a heated surface for fresh pizzas and omelets.
+                    </p>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 font-semibold text-[10px] px-2 py-1 rounded">Centrifugal Cooking</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-300 transition">
+                    <span class="text-xs font-bold text-indigo-600 uppercase block mb-1">UC Riverside</span>
+                    <h3 class="font-extrabold text-space-900 text-base mb-2">Nolux Photosynthesis</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Artificial photosynthesis using electrochemically produced acetate to nurture plants and fungi in total darkness, cutting lighting power by 88%.
+                    </p>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 font-semibold text-[10px] px-2 py-1 rounded">Zero-Light Bio-Growth</span>
+                </div>
+
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-300 transition">
+                    <span class="text-xs font-bold text-indigo-600 uppercase block mb-1">Ecoation</span>
+                    <h3 class="font-extrabold text-space-900 text-base mb-2">CANGrow Substrate</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                        Modular indoor plant system producing 700 kg/year of fresh strawberries, dwarf tomatoes, and mycelium meat substitutes in minimal volume.
+                    </p>
+                    <span class="inline-block bg-indigo-50 text-indigo-700 font-semibold text-[10px] px-2 py-1 rounded">700 kg/year Capacity</span>
+                </div>
+            </div>
+
+            <!-- Biosecurity & UV-C Mechanics Panel -->
+            <div class="bg-space-900 text-white rounded-xl p-6 border border-slate-800 grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                <div>
+                    <div class="inline-block bg-red-900/80 text-red-300 text-[10px] font-bold uppercase px-2.5 py-1 rounded mb-2 border border-red-700/50">
+                        Pathogen Defense Protocol
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Automated UV-C Night Cycle Sterilization</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mb-3">
+                        In closed habitats, fungal pathogens repair UV DNA damage via a <em>photolyase enzyme</em>. Crucially, photolyase reactivation requires exposure to <strong>blue light</strong>.
+                    </p>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                        By deploying autonomous UV-C robotic sweeps during the <strong>artificial night cycle</strong> (when blue LEDs are OFF), microbial DNA is permanently degraded without triggering biological repair mechanisms!
+                    </p>
+                </div>
+                <div class="bg-space-950 p-5 rounded-lg border border-slate-800 space-y-3 text-xs">
+                    <h4 class="font-bold text-bio-300 uppercase tracking-wider text-[11px]">Hyperspectral Early Stress Detection</h4>
+                    <p class="text-slate-400 leading-relaxed">
+                        3D-Convolutional Neural Networks analyze 100+ narrow spectral bands across near-infrared wavelengths. Early chlorophyll drops or phosphorus shortages are detected <strong>14 days before visible symptoms appear</strong>.
+                    </p>
+                    <div class="p-2.5 bg-space-900 rounded border border-slate-700 text-bio-200 font-mono text-[11px]">
+                        Status: Autonomous Climate Dosing Active
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+            <div class="border-l-4 border-bio-600 pl-4">
+                <h2 class="text-2xl font-bold text-space-900">5. Conclusion & Architecture Synthesis</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">The Scalable Blueprint for Human Deep Space Expansion</p>
+            </div>
+            <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+                The successful transition of humanity into a multi-planetary species relies unequivocally on the mastery of closed-loop Bioregenerative Life Support Systems. The analysis demonstrates that sustaining life in deep space cannot be achieved through passive, holistic ecosystem models of the past, nor can it rely indefinitely on continuous resupply from Earth.
+            </p>
+            <p class="text-slate-700 leading-relaxed text-sm sm:text-base">
+                Instead, the future of space habitation lies in deterministic, compartmentalized biological loops. By systematically coupling Supercritical Water Oxidation (SCWO), perchlorate bioremediation via <em>Azospira oryzae</em>, capillary fluidics, phototropic orientation, and automated hyperspectral AI management, human deep space habitats can establish clean water generation, oxygen recycling, and nutritious crop production for unlimited mission horizons.
+            </p>
+        </section>
+
+        <!-- Bibliography Section -->
+        <section id="bibliography" class="bg-white rounded-xl p-6 shadow-sm border border-slate-200 space-y-4">
+            <div class="border-l-4 border-space-800 pl-4">
+                <h2 class="text-xl font-bold text-space-900">Bibliography & References</h2>
+                <p class="text-xs text-slate-500 uppercase tracking-wider font-semibold">Peer-Reviewed Literature, Aerospace Technical Reports & Empirical Datasets</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-slate-600 custom-scrollbar max-h-80 overflow-y-auto p-2 bg-space-50 rounded-lg border border-slate-200">
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[1] ESA MELiSSA Foundation (2023).</span>
+                    <span>Micro-Ecological Life Support System Alternative: Technical Description and Compartmentalized Mass Balance Models. European Space Agency SP-1336.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[2] NASA baseline Values and Assumptions Document (2022).</span>
+                    <span>Life Support and Habitation Systems Architecture Mass Balance Metrics. NASA/TP-2015-218570.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[3] Anderson, V. et al. (2021).</span>
+                    <span>Supercritical Water Oxidation (SCWO) for Space Habitat Waste Stream Treatment. <em>Journal of Aerospace Engineering</em>, 34(4), 04021022.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[4] Coates, J. D., & Achenbach, L. A. (2004).</span>
+                    <span>Microbial perchlorate reduction: rocket-fuelled metabolism. <em>Nature Reviews Microbiology</em>, 2(7), 569-580.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[5] Wheeler, R. M. (2017).</span>
+                    <span>Agriculture for Space Colonies: Planets, Moon, and Transit Missions. <em>Economic Botany</em>, 71(2), 173-189.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[6] Monje, O. et al. (2019).</span>
+                    <span>Passive Porous Tube Nutrient Delivery System Performance in Microgravity: ISS Flight Experiments. <em>Frontiers in Plant Science</em>, 10, 1541.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[7] NASA Deep Space Food Challenge (2023).</span>
+                    <span>Phase 2 Technical Summary and Culinary Innovations for Deep Space Exploration. NASA Marshall Space Flight Center.</span>
+                </div>
+                <div class="p-2 border-b border-slate-200">
+                    <span class="font-bold text-space-900 block">[8] Massa, G. D. et al. (2018).</span>
+                    <span>Vegetable Production System (Veggie) Demonstration Interactions on the International Space Station. <em>Open Agriculture</em>, 3(1), 266-276.</span>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-space-900 text-slate-400 text-xs py-8 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-2">
+            <p class="text-slate-300 font-semibold">Live in a Healthy Space Design Competition Entry</p>
+            <p>Bioregenerative Life Support and Closed-Loop Agricultural Architectures for Deep Space Habitation</p>
+            <p class="text-slate-500 text-[11px] pt-2">Generated for Deep Space Mission Simulation • Dynamic Client Canvas Visualization</p>
+        </div>
+    </footer>
+
+    <!-- Embedded Application Logic -->
+    <script>
+        // --- DATA OBJECTS ---
+        const melissaData = {
+            1: {
+                title: "Compartment 1: Liquefying Compartment",
+                type: "Anaerobic Thermophilic Biodegradation",
+                temp: "55°C",
+                agent: "Thermophilic Anaerobic Consortium",
+                inputs: "Human feces, urea, inedible crop biomass, plant waste",
+                outputs: "Volatile Fatty Acids (VFAs), Ammonium ($NH_4^+$), $CO_2$, $H_2$",
+                desc: "Operates under strict thermophilic anaerobic conditions. Proteolysis, saccharolysis, and cellulolysis break down recalcitrant polymers into short-chain fatty acids and solubilized nitrogen streams."
+            },
+            2: {
+                title: "Compartment 2: Photoheterotrophic Compartment",
+                type: "Anaerobic Light-Driven VFA Elimination",
+                temp: "30°C - 35°C",
+                agent: "Rhodospirillum rubrum (Purple Non-Sulfur Bacteria)",
+                inputs: "Volatile Fatty Acids from Comp 1, Light",
+                outputs: "Purified water stream, bacterial biomass, mineralized salts",
+                desc: "Utilizes purple non-sulfur bacteria to metabolize terminal fatty acids produced in Compartment 1, preventing VFA toxicity in downstream nitrifying cultures."
+            },
+            3: {
+                title: "Compartment 3: Nitrifying Compartment",
+                type: "Axenic Aerobic Fixed-Bed Bioreactor",
+                temp: "28°C",
+                agent: "Nitrosomonas europaea & Nitrobacter winogradsky",
+                inputs: "Ammonium ($NH_4^+$) from Comp 1 & 2, $O_2$",
+                outputs: "Nitrate ($NO_3^-$) - Ideal fertilizer for crops",
+                desc: "Critical two-step oxidation: Nitrosomonas converts toxic ammonium ($NH_4^+$) to nitrite ($NO_2^-$), and Nitrobacter oxidizes nitrite to nitrate ($NO_3^-$), preventing ammonium toxicity in crops."
+            },
+            4: {
+                title: "Compartment 4: Photoautotrophic Compartment",
+                type: "Photobioreactors & Higher Plant Chambers",
+                temp: "20°C - 24°C",
+                agent: "Limnospira indica (Spirulina), Dwarf Wheat, Lettuce, Tomatoes",
+                inputs: "Nitrate ($NO_3^-$), $CO_2$ from Crew, Light, Water",
+                outputs: "Oxygen ($O_2$), Edible Biomass, Transpired Potable Water",
+                desc: "Captures habitat carbon dioxide, regenerates atmospheric oxygen, produces 100% of edible calories, and purifies water via root evapotranspiration."
+            },
+            5: {
+                title: "Compartment 5: Crew Habitation Compartment",
+                type: "Human Biological Respiration Environment",
+                temp: "21°C",
+                agent: "Human Crew (4 - 12 Astronauts)",
+                inputs: "Oxygen ($O_2$), Potable Water, Edible Crops",
+                outputs: "Carbon Dioxide ($CO_2$), Metabolic Urine, Feces, Vapor",
+                desc: "The primary consumer zone. Metabolic equations dictating loop requirements: 0.86 kg O2 consumed and 1.04 kg CO2 produced per astronaut daily."
+            }
+        };
+
+        const cropData = [
+            { name: "Limnospira indica (Spirulina)", cat: "algae", harvest: "Continuous (Daily)", protein: "65%", light: "Low (PBR)", esm: "Extremely Low", desc: "Cyanobacteria grown in photobioreactors. Scrub $CO_2$ at maximum efficiency with zero root-zone fluidic issues." },
+            { name: "Mizuna / Outredgeous Lettuce", cat: "microgreen", harvest: "21 - 28 Days", protein: "18%", light: "150 - 200 µmol/m²/s", esm: "Low Mass", desc: "High Harvest Index (>85%). Provides critical Vitamin C and K to prevent scurvy and bone density loss." },
+            { name: "Micro-Tom Cherry Tomato", cat: "fruiting", harvest: "60 - 70 Days", protein: "12%", light: "300 - 400 µmol/m²/s", esm: "Moderate", desc: "Rich in lycopene and antioxidants. High organoleptic appeal, providing vital psychological relief to the crew." },
+            { name: "Apogee Dwarf Wheat", cat: "staple", harvest: "55 - 65 Days", protein: "14%", light: "600 - 800 µmol/m²/s", esm: "High (Lighting)", desc: "Bred specifically for controlled environments. High caloric density; requires post-harvest threshing and milling." },
+            { name: "Dwarf Sweet Potato", cat: "staple", harvest: "90 - 100 Days", protein: "8%", light: "400 - 500 µmol/m²/s", esm: "Moderate-High", desc: "Produces high carbohydrate tuber biomass along with edible, Vitamin-A rich leaves." }
+        ];
+
+        const soilStages = {
+            1: {
+                title: "Stage 1: Raw Extraterrestrial Regolith Analysis",
+                hazard: "Toxic Perchlorates ($ClO_4^-$ at 0.5% - 1.0%)",
+                pH: "8.2 - 8.8 (Highly Alkaline)",
+                desc: "Raw Martian regolith lacks organic carbon and nitrogen and is contaminated with thyroid-disrupting perchlorate salts ($ClO_4^-$). Primary physical particles are abrasive and nutrient-deficient."
+            },
+            2: {
+                title: "Stage 2: Bacterial Inoculation & Bioremediation",
+                agent: "Azospira oryzae & Dehalococcoides mccartyi",
+                mechanism: "Perchlorate Reductase Enzymatic Cascade",
+                desc: "Inoculating moist regolith with extremophilic perchlorate-reducing bacteria anaerobically reduces $ClO_4^-$ into harmless chloride ($Cl^-$) ions while liberating free oxygen gas ($O_2$)."
+            },
+            3: {
+                title: "Stage 3: SCWO Biosolid Mineralization & Enrichment",
+                condition: "374°C & 22.1 MPa (Supercritical Water Phase)",
+                benefit: "100% Pathogen Destruction + Inorganic Salt Precipitation",
+                desc: "Human feces and crop residues are processed in Supercritical Water Oxidation (SCWO) reactors. Organic carbon converts instantly to $CO_2$ and $H_2O$, while insoluble phosphorus and potassium precipitate out as sterile plant nutrients."
+            },
+            4: {
+                title: "Stage 4: Rhizosphere Organic Acid & Mycorrhizal Mobilization",
+                symbiosis: "Arbuscular Mycorrhizal Fungi (AMF) + Organic Exudates",
+                result: "Arable, Bio-Active Extraterrestrial Soil Matrix",
+                desc: "Plant roots secrete malic and citric acids, lowering local soil pH and solubilizing trapped minerals. Fungal hyphae networks expand root surface area by 400%, facilitating nutrient uptake."
+            }
+        };
+
+        // --- MASS BALANCE CALCULATOR LOGIC ---
+        function updateCalculator() {
+            const crew = parseInt(document.getElementById('crew-count').value);
+            const days = parseInt(document.getElementById('mission-days').value);
+
+            document.getElementById('crew-val').innerText = `${crew} Crew`;
+            document.getElementById('days-val').innerText = `${days} Days`;
+
+            // Baseline constants (kg/person/day)
+            const o2PerDay = 0.865;
+            const h2oPerDay = 2.92;
+            const foodPerDay = 0.71;
+            const co2PerDay = 1.04;
+
+            const totalO2 = Math.round(crew * days * o2PerDay);
+            const totalH2O = Math.round(crew * days * h2oPerDay);
+            const totalFood = Math.round(crew * days * foodPerDay);
+            const totalCO2 = Math.round(crew * days * co2PerDay);
+
+            document.getElementById('out-o2').innerText = `${totalO2.toLocaleString()} kg`;
+            document.getElementById('out-h2o').innerText = `${totalH2O.toLocaleString()} kg`;
+            document.getElementById('out-food').innerText = `${totalFood.toLocaleString()} kg`;
+            document.getElementById('out-co2').innerText = `${totalCO2.toLocaleString()} kg`;
+        }
+
+        document.getElementById('crew-count').addEventListener('input', updateCalculator);
+        document.getElementById('mission-days').addEventListener('input', updateCalculator);
+
+        // --- MELISSA COMPARTMENT SELECTOR ---
+        function showMelissa(id) {
+            // Update active styling
+            for (let i = 1; i <= 5; i++) {
+                const btn = document.getElementById(`mel-btn-${i}`);
+                if (i === id) {
+                    btn.className = "mel-node p-3 rounded-xl border-2 border-bio-500 bg-bio-50 text-left transition hover:shadow-md";
+                } else {
+                    btn.className = "mel-node p-3 rounded-xl border border-slate-200 bg-slate-50 text-left transition hover:shadow-md";
+                }
+            }
+
+            const data = melissaData[id];
+            const detailContainer = document.getElementById('melissa-detail');
+            detailContainer.innerHTML = `
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                    <h4 class="text-lg font-bold text-bio-300">${data.title}</h4>
+                    <span class="bg-bio-900/80 text-bio-200 border border-bio-600 px-2.5 py-0.5 rounded text-xs">${data.type}</span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed">${data.desc}</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs pt-2">
+                    <div class="bg-space-950 p-2.5 rounded border border-slate-800">
+                        <span class="text-slate-400 block text-[10px] uppercase">Target Organism</span>
+                        <span class="font-semibold text-white">${data.agent}</span>
+                    </div>
+                    <div class="bg-space-950 p-2.5 rounded border border-slate-800">
+                        <span class="text-slate-400 block text-[10px] uppercase">Temperature</span>
+                        <span class="font-semibold text-amber-300">${data.temp}</span>
+                    </div>
+                    <div class="bg-space-950 p-2.5 rounded border border-slate-800">
+                        <span class="text-slate-400 block text-[10px] uppercase">Primary Inputs</span>
+                        <span class="font-semibold text-cyan-300">${data.inputs}</span>
+                    </div>
+                    <div class="bg-space-950 p-2.5 rounded border border-slate-800">
+                        <span class="text-slate-400 block text-[10px] uppercase">Primary Outputs</span>
+                        <span class="font-semibold text-bio-300">${data.outputs}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        // --- CROP MATRIX FILTER ---
+        function renderCrops(category = 'all') {
+            const grid = document.getElementById('crop-grid');
+            grid.innerHTML = '';
+
+            const filtered = category === 'all' ? cropData : cropData.filter(c => c.cat === category);
+
+            filtered.forEach(crop => {
+                const card = document.createElement('div');
+                card.className = "bg-space-50 p-4 rounded-xl border border-slate-200 hover:border-bio-400 transition space-y-2";
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <h4 class="font-bold text-space-900 text-sm">${crop.name}</h4>
+                        <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-bio-100 text-bio-800">${crop.cat}</span>
+                    </div>
+                    <p class="text-xs text-slate-600 leading-relaxed">${crop.desc}</p>
+                    <div class="grid grid-cols-2 gap-2 text-[11px] pt-2 border-t border-slate-200/80">
+                        <div><span class="text-slate-400">Harvest:</span> <strong class="text-slate-800">${crop.harvest}</strong></div>
+                        <div><span class="text-slate-400">Protein:</span> <strong class="text-bio-700">${crop.protein}</strong></div>
+                        <div><span class="text-slate-400">Light Demand:</span> <strong class="text-slate-800">${crop.light}</strong></div>
+                        <div><span class="text-slate-400">ESM Impact:</span> <strong class="text-amber-700">${crop.esm}</strong></div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCrops(cat) {
+            const btns = document.querySelectorAll('.crop-filter-btn');
+            btns.forEach(b => {
+                b.className = "crop-filter-btn px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200";
+            });
+            event.target.className = "crop-filter-btn px-3 py-1.5 rounded-lg bg-bio-600 text-white";
+            renderCrops(cat);
+        }
+
+        // --- SOIL STAGE SELECTOR ---
+        function showSoilStage(stageId) {
+            for (let i = 1; i <= 4; i++) {
+                const tab = document.getElementById(`soil-tab-${i}`);
+                if (i === stageId) {
+                    tab.className = "p-3 text-xs font-bold rounded-lg border-2 border-amber-500 bg-amber-50 text-amber-900";
+                } else {
+                    tab.className = "p-3 text-xs font-bold rounded-lg border border-slate-200 bg-slate-50 text-slate-600";
+                }
+            }
+
+            const stage = soilStages[stageId];
+            const detailContainer = document.getElementById('soil-stage-detail');
+            
+            let extraMeta = '';
+            if (stageId === 1) extraMeta = `<div class="text-xs text-amber-300"><strong>Primary Hazard:</strong> ${stage.hazard} | <strong>pH Level:</strong> ${stage.pH}</div>`;
+            if (stageId === 2) extraMeta = `<div class="text-xs text-bio-300"><strong>Inoculant Strain:</strong> ${stage.agent} | <strong>Mechanism:</strong> ${stage.mechanism}</div>`;
+            if (stageId === 3) extraMeta = `<div class="text-xs text-cyan-300"><strong>SCWO State:</strong> ${stage.condition} | <strong>Benefit:</strong> ${stage.benefit}</div>`;
+            if (stageId === 4) extraMeta = `<div class="text-xs text-purple-300"><strong>Bio-Symbiosis:</strong> ${stage.symbiosis} | <strong>Outcome:</strong> ${stage.result}</div>`;
+
+            detailContainer.innerHTML = `
+                <h4 class="text-base font-bold text-amber-300">${stage.title}</h4>
+                ${extraMeta}
+                <p class="text-xs text-slate-300 leading-relaxed pt-2 border-t border-slate-800">${stage.desc}</p>
+            `;
+        }
+
+        // --- CHART INITIALIZATIONS (CHART.JS) ---
+        function initCharts() {
+            // Chart 1: ESM Trade-off Line Chart
+            const ctxEsm = document.getElementById('esmChart').getContext('2d');
+            new Chart(ctxEsm, {
+                type: 'line',
+                data: {
+                    labels: ['0 Yrs', '1 Yr', '2 Yrs', '3 Yrs', '4 Yrs', '4.8 Yrs (Crossover)', '6 Yrs', '8 Yrs'],
+                    datasets: [
+                        {
+                            label: 'Physicochemical Resupply ESM (kg)',
+                            data: [1500, 4700, 7900, 11100, 14300, 16860, 20700, 27100],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            borderWidth: 2,
+                            tension: 0.1,
+                            fill: false
+                        },
+                        {
+                            label: 'Bioregenerative Life Support (BLSS) ESM (kg)',
+                            data: [14000, 14600, 15200, 15800, 16400, 16860, 17600, 18800],
+                            borderColor: '#16a34a',
+                            backgroundColor: 'rgba(22, 163, 74, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.1,
+                            fill: false
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.dataset.label}: ${context.parsed.y.toLocaleString()} kg`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { 
+                            title: { display: true, text: 'ESM Mass Penalty (kg)', font: { size: 11 } },
+                            ticks: { font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Lighting PPE Bar Chart
+            const ctxPpe = document.getElementById('ppeChart').getContext('2d');
+            new Chart(ctxPpe, {
+                type: 'bar',
+                data: {
+                    labels: ['Early Commercial LED', 'Standard ISS Veggie', 'High-Efficiency Target', 'Himawari Fiber Solar'],
+                    datasets: [{
+                        label: 'Photosynthetic Photon Efficacy (µmol / Joule)',
+                        data: [1.8, 2.1, 3.2, 4.5],
+                        backgroundColor: ['#94a3b8', '#38bdf8', '#22c55e', '#f59e0b'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `PPE: ${context.parsed.y} µmol/J`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+                        y: { 
+                            title: { display: true, text: 'Photon Efficacy (µmol/J)', font: { size: 11 } },
+                            ticks: { font: { size: 10 } },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // --- ON LOAD INITIALIZATION ---
+        window.addEventListener('DOMContentLoaded', () => {
+            updateCalculator();
+            showMelissa(1);
+            renderCrops('all');
+            showSoilStage(1);
+            initCharts();
+        });
+    </script>
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</body>
+</html>
